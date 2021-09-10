@@ -56,20 +56,17 @@ This will cause the StyleCop binaries and supporting MSBuild targets files to be
 
 Once the StyleCop MSBuild files are installed, the next step is to import the StyleCop targets file into your C# projects. This is done by adding an Import tag to each C# project file.
 
-For example, to integrate StyleCop to the project SampleProject, open the project file SampleProject.csproj within your favorite text editor. Scroll down to the bottom of the file and add a new tag to import the StyleCop.targets file. This import tag should be added just below the import of Microsoft.CSharp.targets:
+For example, to integrate StyleCop to the project SampleProject, open the project file SampleProject.csproj within your favorite text editor. Scroll down to the bottom of the file and add a new tag to import the <b>StyleCop.targets</b> file. This import tag should be added just below the import of Microsoft.CSharp.targets:
 
 ```
-<Project ToolsVersion="3.5" DefaultTargets="Build"   
-xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  	
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  	
 		.
 		.
-<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-<Import 
-Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebAp
-plication.targets" />
-  <b style="background-color:green;"><Import Project="StyleCop\StyleCop.Targets" /></b>
-	.
-	.
+	<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+	<Import Project="StyleCop\StyleCop.Targets" />
+		.
+		.
 </Project>
 ```
 
