@@ -128,3 +128,112 @@ Now we will perform certain action/steps to remove all these errors/warnings.
 
 ![image](https://user-images.githubusercontent.com/84455469/132864434-0ee65d3f-7499-4c40-978b-12ee20c4d411.png)
 
+#### Team Development Environments
+
+Here what we have seen above is specific to individual developer machine. Now we have to make this process globally within well-defined development environment so that no one developer is needed to install/configure it manually on his machine. To achieve this we have to execute following steps in the project repository and same should be checked-in to version control so that whenever developer setup the branch or take the latest code it will come automatically to his machine without doing any activity at individual machine.
+
+1. While designing/creating folder/directory structure of the application, create one more folder for StyleCop and give a name (let’s say StyleCop).
+
+2. Copy following .DLLS and Setting files from C:\Program Files (x86)\MSBuild\StyleCop\v4.7 and  C:\Program Files (x86)\StyleCop 4.7, and paste to StyleCop folder inside your project as below:
+
+	a.	StyleCop.CSharp.dll
+	b.	StyleCop.CSharp.Rules.dll
+	c.	StyleCop.dll
+	d.	StyleCop.Targets
+	e.	StyleCop.VSPackage.dll
+	
+	![image](https://user-images.githubusercontent.com/84455469/132864831-23751c7f-594a-4c91-b741-1215713626d9.png)
+
+3. Open the StyleCop.Targets file in any editor and comment the first line and add the second line as below:
+
+```
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  	<!-- Specify where tasks are implemented. -->
+  	<!--<UsingTask AssemblyFile="$(MSBuildExtensionsPath)\..\StyleCop 4.7\StyleCop.dll" TaskName="StyleCopTask"/>-->
+ 	<UsingTask AssemblyFile="StyleCop.dll" TaskName="StyleCopTask"/>
+</Project>
+
+```
+
+This is nothing but just referencing the StyleCop.dll from application directory instead of installation directory.
+
+4. Now close the solution and open it again.
+
+5. Build the application. This time all the required libraries for StyleCop will be read from application directory instead of installation directory during the build process.
+ 
+6. Checked-in all files to version control.
+ 
+7. Finally take the latest code base to other developer machine and just build it nothing else.
+
+#### Comment: 
+Setting up a team development environment is a onetime task and especially at beginning of the project. So this task should be controlled by only one person in the team (i.e. Project Lead). No one else is authorized to modify any settings/rules.
+
+#### StyleCop Rules:
+
+We can see all the rules defined in StyleCop by clicking on the StyleCop settings button as below:
+
+![image](https://user-images.githubusercontent.com/84455469/132865417-0c751f1e-3d2a-4db2-94fa-753cd4de403d.png)
+
+![image](https://user-images.githubusercontent.com/84455469/132865440-e3c3893f-a923-4393-82d9-2df04556459b.png)
+
+We can enable/disable any rules from this window. While enabling/disabling rules the settings will be updated in Settings.StyleCop file inside project directory as shown below:
+
+![image](https://user-images.githubusercontent.com/84455469/132865467-13635345-3589-4349-bc53-474216b1e106.png)
+
+Alternatively we can also enable/disable the rules from this Setting.StyleCop file as well and checking the same in to source control so that same rule must be followed at every developer machine.
+
+#### StyleCop on multiple projects inside one solution:
+
+StyleCop can also be run on multiple projects inside a solution. For this you have to do the following steps:
+
+1. Open second project file in any editor (e.g. StyleCop.BAL.csproj).
+
+2. Add following line to the file.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		.
+		.
+		<RootNamespace>StyleCop.BAL</RootNamespace>
+		<AssemblyName>StyleCop.BAL</AssemblyName>
+		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+		<StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+		.
+		.
+	</PropertyGroup>
+	.
+	.
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Import Project="..\Sample_02\StyleCop\StyleCop.Targets" />
+	.
+	.
+</Project>
+
+```
+
+3. Go to StyleCop settings windows of StyleCop.BAL project and select the Setting Files tab select the 3rd radio button and specify the path of Settings.StyleCop file of the parent project and click on Ok button as shown below:
+
+![image](https://user-images.githubusercontent.com/84455469/132865805-f99419d7-7348-4105-ac41-ac9a1f471853.png)
+
+4. Doing this the parent setting will be referenced in to child project as shown below:
+
+![image](https://user-images.githubusercontent.com/84455469/132865908-e9551c11-a6b8-4c3a-892d-1f20badefc69.png)
+
+5. Finally close the solution and open it again and run the application. 
+
+So we see that we have to only configure the parent project and referenced that setting file to all child project.
+
+#### Creating Our Custom Rules:
+
+Working on it…
+
+
+#### Integration with Hudson/Cruise Control
+
+Working on it…
+
+I believe, we don’t need to do any extra effort to integrate with Hudson/Cruise Control because these controls fire MSBuild internally and we have already integrated with MSBuild. 
+
+
