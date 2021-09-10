@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="My Custom Rules">
+  <Description>
+    My Custom Rules.
+  </Description>
+  <Rules>
+    <RuleGroup Name="Class Name Rule">
+      <Rule Name="AvoidToRepeatSameLetterMoreThanTwoTimesConsecutively" CheckId="CR0001">
+        <Context>Avoid to repeat same letter more than two times consecutively in {0} names.</Context>
+        <Description>Avoid to repeat same letter more than two times consecutively.</Description>
+      </Rule>
+    </RuleGroup>
+    
+    <RuleGroup Name="Field Name Rule">
+      <Rule Name="PrivateFieldNameMustStartEitherWithUnderscoreFollowedByLowerCaseOrLowerCase" CheckId="CR0002">
+        <Context>Private field name must start either with underscore followed by a lower-case letter Or lower-case letter.</Context>
+        <Description>Private field name must start either with underscore followed by a lower-case letter Or lower-case letter.</Description>
+      </Rule>
+    </RuleGroup>
+  </Rules>
+</SourceAnalyzer>
