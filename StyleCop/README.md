@@ -72,3 +72,59 @@ For example, to integrate StyleCop to the project SampleProject, open the projec
 
 Now save the modified .csproj file. 
 
+Now when you build this project either within Visual Studio or on the command line; StyleCop will run automatically against the entire C #source files within the project and StyleCop violations will appear as build warnings into the warning windows.
+
+Comments: By default StyleCop violations will be displayed as build warnings and again I am very confident that no one developer will take care these warnings seriously. So we have to force developer to resolve these warnings at any cost before checked in the code. To achieve this we have to show StyleCop Violations as build errors instead of build warnings in to error window.
+
+Showing StyleCop violations as build errors instead of warnings
+
+To turn StyleCop violations into build errors, the flag StyleCopTreatErrorsAsWarnings must be set to false.  This flag can be set as an environment variable on the machine, or within the build environment command window. Setting the flag this way will cause StyleCop violations to appear as build errors automatically for all projects where StyleCop build integration is enabled.
+
+Alternately, this flag can be set within the project file for a particular project. Open the .csproj file for your project again, and find the first PropertyGroup section within the file. Add a new tag to set the <b>StyleCopTreatErrorsAsWarnings</b> flag to false. For example:
+
+```
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  	
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    		.
+		.
+		<RootNamespace>Sample_02</RootNamespace>
+		<AssemblyName>Sample_02</AssemblyName>
+		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+		<StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+	</PropertyGroup>	
+</Project>
+```
+
+Now if we build the application, all the StyleCop violations will be displayed as build errors in error window as shown below:
+
+![image](https://user-images.githubusercontent.com/84455469/132863778-0e93f9c2-0eff-4a56-8fcb-8d5f8a0a1c29.png)
+
+Now we will perform certain action/steps to remove all these errors/warnings.
+
+#### Action to remove all above warnings:
+
+1. To remove 1st warning add below text at top of the class
+
+![image](https://user-images.githubusercontent.com/84455469/132864038-3e6613c5-55db-4717-895d-3830f9283eaa.png)
+   
+2. To remove 2nd warning add below text at top of the method:
+
+![image](https://user-images.githubusercontent.com/84455469/132864161-7f392988-e6a5-4401-9772-f02e829f90ea.png)
+
+3. To remove 3rd warning, add below text at top of the file:
+
+![image](https://user-images.githubusercontent.com/84455469/132864224-da9c29df-c7e8-41e1-898d-0153ec7ea1e8.png)
+
+4. To remove 4th and 5th warning, add below text/code inside method:
+
+![image](https://user-images.githubusercontent.com/84455469/132864302-da32a6cb-ab70-441f-9cc5-6d34c489c465.png)
+
+5. To remove warning from 6th to 11th, cut all using directive from top and paste it inside namespace as below:
+
+![image](https://user-images.githubusercontent.com/84455469/132864361-a20f43e5-deca-4316-b1ee-b3bb2d80ced5.png)
+
+6. Now we have removed all errors, warnings and messages:
+
+![image](https://user-images.githubusercontent.com/84455469/132864434-0ee65d3f-7499-4c40-978b-12ee20c4d411.png)
+
